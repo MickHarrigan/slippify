@@ -1,38 +1,24 @@
 use anyhow::Result;
+use iced::{Sandbox, Settings};
+#[cfg(feature = "show_image")]
 use image::{io::Reader, GenericImageView};
+#[cfg(feature = "show_image")]
 use show_image::{create_window, event, Color, WindowOptions};
 
 // This is a constant 2d array of the character portraits
 // u8 is a placeholder type for the later type found from reading and parsing that will be done with the actual app
-type CharacterPortraits = [[Option<u8>; 6]; 25];
-const CHARACTER_PORTRAITS: CharacterPortraits = [
-    [Some(0), Some(1), Some(2), Some(3), Some(4), None], // Dr. Mario
-    [Some(0), Some(1), Some(2), Some(3), Some(4), None], // Mario
-    [Some(0), Some(1), Some(2), Some(3), None, None],    // Luigi
-    [Some(0), Some(1), Some(2), Some(3), None, None],    // Bowser
-    [Some(0), Some(1), Some(2), Some(3), Some(4), None], // Peach
-    [Some(0), Some(1), Some(2), Some(3), Some(4), Some(5)], // Yoshi
-    [Some(0), Some(1), Some(2), Some(3), Some(4), None], // Donkey Kong
-    [Some(0), Some(1), Some(2), Some(3), Some(4), Some(5)], // Captain Falcon
-    [Some(0), Some(1), Some(2), Some(3), Some(4), None], // Ganondorf
-    [Some(0), Some(1), Some(2), Some(3), None, None],    // Falco
-    [Some(0), Some(1), Some(2), Some(3), None, None],    // Fox
-    [Some(0), Some(1), Some(2), Some(3), None, None],    // Ness
-    [Some(0), Some(1), Some(2), Some(3), None, None],    // Ice Climbers
-    [Some(0), Some(1), Some(2), Some(3), Some(4), Some(5)], // Kirby
-    [Some(0), Some(1), Some(2), Some(3), Some(4), None], // Samus
-    [Some(0), Some(1), Some(2), Some(3), Some(4), None], // Zelda
-    [Some(0), Some(1), Some(2), Some(3), Some(4), None], // Link
-    [Some(0), Some(1), Some(2), Some(3), Some(4), None], // Young Link
-    [Some(0), Some(1), Some(2), Some(3), None, None],    // Pichu
-    [Some(0), Some(1), Some(2), Some(3), None, None],    // Pikachu
-    [Some(0), Some(1), Some(2), Some(3), Some(4), None], // Jigglypuff
-    [Some(0), Some(1), Some(2), Some(3), None, None],    // Mewtwo
-    [Some(0), Some(1), Some(2), Some(3), None, None],    // Mr. Game and Watch
-    [Some(0), Some(1), Some(2), Some(3), Some(4), None], // Marth
-    [Some(0), Some(1), Some(2), Some(3), Some(4), None], // Roy
-];
 
+mod app;
+mod characters;
+use app::*;
+use characters::*;
+
+#[cfg(not(feature = "show_image"))]
+fn main() -> Result<()> {
+    Slippify::run(Settings::default()).map_err(|e| e.into())
+}
+
+#[cfg(feature = "show_image")]
 #[show_image::main]
 fn main() -> Result<()> {
     let dir = std::env!("CARGO_MANIFEST_DIR");

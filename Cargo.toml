@@ -4,9 +4,11 @@ version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[features]
+show_image = ["dep:show-image"]
 
 [dependencies]
 anyhow = "1.0.75"
-iced = "0.10.0"
+iced = { version = "0.10.0", features = ["image", "advanced"] }
 image = "0.24.7"
-show-image = { version = "0.13.1", features = ["image"] }
+show-image = { version = "0.13.1", features = ["image"], optional = true }
